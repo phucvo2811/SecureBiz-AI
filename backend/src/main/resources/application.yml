@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: securebiz-backend
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/securebiz}
+    username: ${DATABASE_USERNAME:securebiz}
+    password: ${DATABASE_PASSWORD:change-me}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:change-me}
+
+server:
+  port: ${BACKEND_PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+securebiz:
+  storage:
+    endpoint: ${S3_ENDPOINT:http://localhost:9000}
+    access-key: ${S3_ACCESS_KEY:securebiz-local}
+    secret-key: ${S3_SECRET_KEY:change-me-now}
+    document-bucket: ${S3_BUCKET_DOCUMENTS:documents}
+    product-bucket: ${S3_BUCKET_PRODUCTS:product-media}
+    max-document-bytes: ${DOCUMENT_MAX_BYTES:10485760}
+  ai:
+    service-url: ${AI_SERVICE_URL:http://localhost:8000}
+    api-key: ${INTERNAL_AI_API_KEY:replace-with-random-service-credential}
+  risk:
+    policy-version: ${RISK_POLICY_VERSION:v1}
+    ml-weight: ${RISK_ML_WEIGHT:65}
+    context-weight: ${RISK_CONTEXT_WEIGHT:35}
+  outbox:
+    poll-delay-ms: ${OUTBOX_POLL_DELAY_MS:1000}
+    batch-size: ${OUTBOX_BATCH_SIZE:20}
+    max-attempts: ${OUTBOX_MAX_ATTEMPTS:10}
+  llm:
+    enabled: ${LLM_ENABLED:false}
+    endpoint: ${LLM_ENDPOINT:http://localhost:11434/v1/chat/completions}
+    api-key: ${LLM_API_KEY:}
+    model: ${LLM_MODEL:}
+    provider: ${LLM_PROVIDER:openai-compatible}
+  demo:
+    enabled: ${DEMO_DATA_ENABLED:false}
+    password: ${DEMO_ACCOUNT_PASSWORD:SecureBiz@123}
+  auth:
+    issuer: ${JWT_ISSUER:securebiz-ai}
+    signing-key: ${JWT_SIGNING_KEY:replace-with-at-least-32-random-bytes}
+    access-token-ttl: ${JWT_ACCESS_TOKEN_TTL:15m}
+    refresh-token-ttl: ${JWT_REFRESH_TOKEN_TTL:14d}
+    max-failed-logins: ${AUTH_MAX_FAILED_LOGINS:5}
+    lock-duration: ${AUTH_LOCK_DURATION:15m}
+    login-rate-limit: ${AUTH_LOGIN_RATE_LIMIT:10}
+    login-rate-window: ${AUTH_LOGIN_RATE_WINDOW:1m}
+    refresh-cookie-secure: ${AUTH_REFRESH_COOKIE_SECURE:false}

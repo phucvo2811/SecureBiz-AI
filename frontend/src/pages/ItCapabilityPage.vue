@@ -1,0 +1,2 @@
+<script setup lang="ts">defineProps<{title:string;description:string}>()</script>
+<template><section class="rounded-2xl border border-slate-800 bg-slate-900 p-8"><span class="rounded-full bg-violet-500/15 px-3 py-1 text-xs text-violet-200">Chưa được cấu hình</span><h2 class="mt-4 text-2xl font-bold">{{title}}</h2><p class="mt-2 max-w-2xl text-slate-400">{{description}}</p><p class="mt-6 border-t border-slate-800 pt-5 text-sm text-slate-500">Không có hành động mô phỏng. Chức năng sẽ xuất hiện khi backend có workflow thật và được audit.</p></section></template>

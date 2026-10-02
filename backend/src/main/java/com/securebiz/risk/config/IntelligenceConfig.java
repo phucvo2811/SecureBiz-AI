@@ -1,0 +1,2 @@
+package com.securebiz.risk.config;import org.springframework.boot.context.properties.EnableConfigurationProperties;import org.springframework.context.annotation.*;import org.springframework.web.client.RestClient;
+@Configuration@EnableConfigurationProperties({AiProperties.class,RiskProperties.class})public class IntelligenceConfig{@Bean RestClient aiRestClient(AiProperties p){return RestClient.builder().baseUrl(p.serviceUrl()).defaultHeader("X-Internal-Api-Key",p.apiKey()).build();}}

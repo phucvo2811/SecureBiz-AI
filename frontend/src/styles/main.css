@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f5f7fb; color-scheme: light; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-width: 320px; min-height: 100%; background: #f5f7fb; }
+button, input, select, textarea { font: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(6,182,212,.28); outline-offset: 2px; }
+
+@layer components {
+  .page-shell { @apply mx-auto w-full max-w-[1600px] p-4 sm:p-6 lg:p-8; }
+  .page-header { @apply flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between; }
+  .page-eyebrow { @apply text-xs font-bold uppercase tracking-[.13em] text-cyan-700; }
+  .page-title { @apply mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl; }
+  .page-description { @apply mt-1 max-w-2xl text-sm leading-6 text-slate-500; }
+  .page-actions { @apply flex flex-wrap items-center gap-2; }
+  .panel { @apply rounded-2xl border border-slate-200 bg-white shadow-sm; }
+  .panel-header { @apply flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-5 py-4; }
+  .panel-body { @apply p-5; }
+  .btn { @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply bg-cyan-700 text-white shadow-sm hover:bg-cyan-800; }
+  .btn-secondary { @apply border border-slate-300 bg-white text-slate-700 hover:border-slate-400 hover:bg-slate-50; }
+  .btn-danger { @apply border border-red-200 bg-red-50 text-red-700 hover:bg-red-100; }
+  .btn-sm { @apply min-h-9 px-3 py-1.5 text-xs; }
+  .field { @apply grid gap-1.5 text-sm font-medium text-slate-700; }
+  .input { @apply min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100 disabled:bg-slate-100 disabled:text-slate-500; }
+  .filter-bar { @apply flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:flex-wrap sm:items-end; }
+  .table-wrap { @apply overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm; }
+  .data-table { @apply w-full min-w-[720px] border-collapse text-left text-sm; }
+  .data-table thead { @apply bg-slate-50 text-xs uppercase tracking-wide text-slate-500; }
+  .data-table th { @apply whitespace-nowrap border-b border-slate-200 px-4 py-3 font-semibold; }
+  .data-table td { @apply border-b border-slate-100 px-4 py-3 align-middle; }
+  .data-table tbody tr { @apply transition hover:bg-cyan-50/40; }
+  .status-badge { @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold; }
+  .status-badge__dot { @apply h-1.5 w-1.5 rounded-full bg-current; }
+  .status-badge--success { @apply bg-emerald-50 text-emerald-700; }
+  .status-badge--warning { @apply bg-amber-50 text-amber-700; }
+  .status-badge--danger { @apply bg-red-50 text-red-700; }
+  .status-badge--info { @apply bg-sky-50 text-sky-700; }
+  .status-badge--neutral { @apply bg-slate-100 text-slate-600; }
+  .data-state { @apply flex min-h-36 flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-600; }
+  .data-state__icon { @apply grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-xl font-bold text-slate-500; }
+  .data-state__spinner { @apply h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-cyan-600; }
+  .data-state--error { @apply border-red-200 bg-red-50/50 text-red-800; }
+  .pagination { @apply mt-4 flex items-center justify-end gap-3; }
+  .pagination__label { @apply text-sm text-slate-600; }
+  .alert-success { @apply rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800; }
+  .alert-error { @apply rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800; }
+  .metric-card { @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm; }
+  .metric-label { @apply text-sm font-medium text-slate-500; }
+  .metric-value { @apply mt-2 text-2xl font-bold tracking-tight text-slate-900; }
+}
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }

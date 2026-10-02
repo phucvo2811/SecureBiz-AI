@@ -1,0 +1,16 @@
+{
+  "dataset_id": "securebiz-synthetic-v1",
+  "source_type": "SYNTHETIC",
+  "generator": "datasets/generate_synthetic.py",
+  "feature_schema_version": "behavior-v1",
+  "rows": 500,
+  "labeled_anomalies": 25,
+  "random_seed": 42,
+  "generated_file": "datasets/processed/synthetic-v1.csv",
+  "generated_file_sha256": "1d78aa194d8c464788be97ba3bbeb025343a974a22345c22a2105a558ef40edd",
+  "limitations": [
+    "This is controlled experimental data, not observed employee behavior.",
+    "Anomalies are intentionally separable and therefore overestimate real-world effectiveness.",
+    "Metrics from this dataset must not be reported as production detection performance."
+  ]
+}

@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import {onMounted,ref} from 'vue'
+import {useRouter} from 'vue-router'
+import {getMySessions,revokeMySession,type AuthSession} from '@/services/identity'
+import {useAuthStore} from '@/stores/auth'
+
+const sessions=ref<AuthSession[]>([]),loading=ref(false),busy=ref(''),error=ref(''),notice=ref('')
+const auth=useAuthStore(),router=useRouter()
+const format=(value?:string)=>value?new Intl.DateTimeFormat('vi-VN',{dateStyle:'medium',timeStyle:'short'}).format(new Date(value)):'—'
+async function load(){loading.value=true;error.value='';try{sessions.value=await getMySessions()}catch{error.value='Không thể tải danh sách phiên đăng nhập.'}finally{loading.value=false}}
+async function revoke(item:AuthSession){busy.value=item.id;error.value='';try{await revokeMySession(item.id);if(item.current){auth.clearSession();await router.replace({name:'login'});return}notice.value='Đã thu hồi phiên và toàn bộ refresh token liên quan.';await load()}catch{error.value='Không thể thu hồi phiên này.'}finally{busy.value=''}}
+onMounted(load)
+</script>
+
+<template><section class="p-6 lg:p-8"><p class="text-sm font-semibold text-cyan-700">Bảo mật tài khoản</p><h2 class="text-3xl font-bold">Phiên đăng nhập của tôi</h2><p class="mt-2 text-slate-600">Kiểm tra thiết bị, địa chỉ truy cập và thu hồi phiên không còn sử dụng.</p><p v-if="error" class="mt-4 rounded-lg bg-red-50 p-3 text-red-800">{{error}}</p><p v-if="notice" class="mt-4 rounded-lg bg-emerald-50 p-3 text-emerald-800">{{notice}}</p><p v-if="loading" class="mt-6 text-slate-500">Đang tải…</p><div v-else class="mt-6 overflow-x-auto rounded-xl border bg-white"><table class="w-full text-left text-sm"><thead class="bg-slate-50"><tr><th class="p-4">Thiết bị</th><th class="p-4">IP</th><th class="p-4">Bắt đầu</th><th class="p-4">Hết hạn</th><th class="p-4">Trạng thái</th><th class="p-4"></th></tr></thead><tbody class="divide-y"><tr v-for="item in sessions" :key="item.id"><td class="p-4"><span class="font-semibold">{{item.deviceName||'Thiết bị không đặt tên'}}</span><span class="block max-w-xs truncate text-xs text-slate-500" :title="item.userAgent">{{item.userAgent||'Không có user agent'}}</span></td><td class="p-4 font-mono text-xs">{{item.ipAddress||'—'}}</td><td class="p-4">{{format(item.startedAt)}}<span v-if="item.current" class="ml-2 rounded-full bg-cyan-100 px-2 py-1 text-xs font-semibold text-cyan-800">Hiện tại</span></td><td class="p-4">{{format(item.expiresAt)}}</td><td class="p-4"><span v-if="item.revokedAt" class="text-red-700">Đã thu hồi</span><span v-else-if="new Date(item.expiresAt)<=new Date()" class="text-slate-500">Đã hết hạn</span><span v-else class="text-emerald-700">Đang hoạt động</span></td><td class="p-4"><button v-if="!item.revokedAt" :disabled="busy===item.id" class="rounded-lg border border-red-200 px-3 py-2 font-semibold text-red-700 disabled:opacity-50" @click="revoke(item)">{{busy===item.id?'Đang thu hồi…':item.current?'Đăng xuất phiên này':'Thu hồi'}}</button></td></tr><tr v-if="!sessions.length"><td colspan="6" class="p-8 text-center text-slate-400">Không có phiên đăng nhập.</td></tr></tbody></table></div></section></template>
